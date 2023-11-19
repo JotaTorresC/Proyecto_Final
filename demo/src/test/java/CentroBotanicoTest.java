@@ -20,8 +20,6 @@ public class CentroBotanicoTest {
         assertTrue(inventario.contains(planta1));
         assertTrue(inventario.contains(planta2));
         
-        //assertNotNull(inventario);
-        //assertEquals(2, inventario.size());
     }
     //test de agregar botanico
     @Test
