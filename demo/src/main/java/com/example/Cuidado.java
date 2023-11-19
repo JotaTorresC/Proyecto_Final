@@ -1,5 +1,4 @@
 package com.example;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -100,4 +99,5 @@ public class Cuidado {
     public void registrarPlanta(Plantas plantasA) {
         plantas.add(plantasA);
     }
+    
 }

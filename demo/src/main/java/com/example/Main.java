@@ -1,7 +1,10 @@
 package com.example;
-
+import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class Main {
     public static void main(String[] args) {
@@ -14,8 +17,8 @@ public class Main {
         centro.agregarPlanta(planta2);
 
         // Crear y agregar botánicos
-        Botanico botanico1 = new Botanico("1", "Juan",  "juan@example.com", 12345678);
-        Botanico botanico2 = new Botanico("2", "María", "maria@example.com", 987654321);
+        Botanico botanico1 = new Botanico(1, "Juan",  "juan@example.com", 12345678);
+        Botanico botanico2 = new Botanico(2, "María", "maria@example.com", 987654321);
         centro.agregarBotanico(botanico1);
         centro.agregarBotanico(botanico2);
 
@@ -32,22 +35,72 @@ public class Main {
 
         centro.agregarCuidado(cuidado1);
         centro.agregarCuidado(cuidado2);
+        botanico1.agregarCuidadoParticipado(cuidado1);
+        botanico2.agregarCuidadoParticipado(cuidado2);
+        /*INICIA EL DESARROLLO DE LA MODAL */
+        JFrame frame = new JFrame("Centro Botanico");
+        frame.setSize(400, 300);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // Buscar información sobre una planta específica
-        centro.buscarPorNombrePlanta("Arbol");
-        centro.cambiarEstado("Arbol",2);
+        // Crear barra de menú
+        JMenuBar menuBar = new JMenuBar();
 
-        // Obtener listas del centro botánico
-        /*List<Plantas> plantas = centro.getInventarioPlantas();
-        List<Botanico> listaBotanicos = centro.getBotanico();
-        List<Cuidado> cuidados = centro.getListaCuidados();*/
+        // Crear menú
+        JMenu menu = new JMenu("Menu Vivero");
 
-        //System.out.println(centro.getInventarioPlantas());
-        /*for( Plantas p:plantas){
-            System.out.println(p.getNombrePlantas());
+        // Crear elementos del menú
+        JMenuItem buscarPlanta = new JMenuItem("Buscar Planta por nombre");
+        JMenuItem cambiarEstado = new JMenuItem("Cambiar Estado de la Plantas");        
+        JMenuItem busBotanico = new JMenuItem("Buscar cuidado de un Botanico");
 
-        }*/
-        // Realizar otras operaciones o mostrar información según sea necesario...
+        // Agregar elementos al menú
+        menu.add(buscarPlanta);
+        menu.add(cambiarEstado);
+        menu.add(busBotanico);
+
+        // Agregar menú a la barra de menú
+        menuBar.add(menu);
+
+        // Agregar barra de menú al marco
+        frame.setJMenuBar(menuBar);
+
+        buscarPlanta.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                String planta = JOptionPane.showInputDialog(frame, "Por favor, introduce el nombre de la planta que deseas buscar:");
+                if (planta != null) {
+                    String plantaBuscada = centro.buscarPorNombrePlanta(planta);
+                           
+                    JOptionPane.showMessageDialog(frame, "Ingresaste: " + planta + "\n Resultado: "+ plantaBuscada);
+                }
+            }
+        });
+
+        cambiarEstado.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                String plantaEstado = JOptionPane.showInputDialog(frame, "Por favor, el nombre de la planta a la que deseas cambiar el estado:");
+                String eleccionEstado = JOptionPane.showInputDialog(frame, "Por favor, eliga el estado teniendo en cuenta que : 1-PENDIENTE, 2-EN PROCESO, 3-FINALIZADO, 4-APLAZADO:");
+                if (plantaEstado != null ) {
+                    String estadiPlanta = centro.cambiarEstado(plantaEstado,Integer.parseInt(eleccionEstado));
+                    JOptionPane.showMessageDialog(frame, "Resultado: "+ estadiPlanta);
+                }
+            }
+        });
+
+        busBotanico.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e){
+                String licenciaBotanica = JOptionPane.showInputDialog(frame, "Por favor, el número de licencia del botanico:");
+                if (licenciaBotanica != null ) {
+                    List<Cuidado> cuidadosDelBotanico = botanico1.getCuidadosPorNumeroLicencia(Integer.parseInt(licenciaBotanica));
+                    for (Cuidado cuidado : cuidadosDelBotanico) {
+                        String resultado = "Nombre del cuidado: " + cuidado.getNombreCuidado() +"\n" + "Ubicación : " + cuidado.getUbicacion() + "\n" +
+                        "Hora Cuidado : " + cuidado.getHoraCuidado() + "\n" +"Estado del cuidado : " + cuidado.getEstado() +"\n" + "Area : " + cuidado.getArea();
+                        JOptionPane.showMessageDialog(frame, resultado);
+                    }
+                }
+            }
+        });
+
+
+        frame.setVisible(true);
     }
-
 }

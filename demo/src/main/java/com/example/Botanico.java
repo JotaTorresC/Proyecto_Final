@@ -1,22 +1,27 @@
 package com.example;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Botanico {
-    private String licenciaBotanica;
+    private int licenciaBotanica;
     private String nombre;
     private String email;
     private int nTelefono;
+    private List<Cuidado> cuidados;
 
     public Botanico(){
 
     }
 
-    public Botanico(String licenciaBotanica,String nombre,String email,int nTelefono){
+    public Botanico(int licenciaBotanica,String nombre,String email,int nTelefono){
         this.licenciaBotanica=licenciaBotanica;
         this.nombre=nombre;
         this.email=email;
         this.nTelefono=nTelefono;
+        cuidados =new ArrayList<>();
     }
     
-    public String getLicenBotanico(){
+    public int getLicenBotanico(){
         return licenciaBotanica;
     }
 
@@ -32,7 +37,7 @@ public class Botanico {
         return nTelefono;
     }
 
-    public void setLicenBotanico(String licenciaBotanica){
+    public void setLicenBotanico(int licenciaBotanica){
         this.licenciaBotanica=licenciaBotanica;
     }
     public void setNombre(String nombre){
@@ -43,5 +48,22 @@ public class Botanico {
     }
     public void setNTelefono(int nTelefono){
         this.nTelefono=nTelefono;
+    }
+
+    public void agregarCuidadoParticipado(Cuidado cuidado) {
+        cuidados.add(cuidado);
+    }
+    public List<Cuidado> getCuidadosPorNumeroLicencia(int numeroLicencia) {
+        List<Cuidado> cuiEnParticipa = new ArrayList<>();
+        for (Cuidado cuidado : cuidados) {
+            List<Botanico> botaCuidados = cuidado.getBotanico();
+            for (Botanico botanico : botaCuidados) {
+                if (botanico.getLicenBotanico() == numeroLicencia) {
+                    cuiEnParticipa.add(cuidado);
+                    break;
+                }
+            }
+        }
+        return cuiEnParticipa;
     }
 }
