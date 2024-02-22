@@ -12,7 +12,7 @@ public class Main {
 
         // Crear y agregar plantas al inventario
         Plantas planta1 = new Plantas("Rosa", "Flor");
-        Plantas planta2 = new Plantas("Pino", "Arbol");
+         Plantas planta2 = new Plantas("Pino", "Arbol");
         centro.agregarPlanta(planta1);
         centro.agregarPlanta(planta2);
 
